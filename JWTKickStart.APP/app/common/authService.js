@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("ixesha")
+        .module("jwtKickStart")
         .factory("authService", authService);
 
     authService.$inject = ["$http", "$q", "appSettings", "store"];

@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("ixesha")
+        .module("jwtKickStart")
         .controller("home", home);
 
     home.$inject = ["authService", "api"];

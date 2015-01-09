@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("ixesha")
+        .module("jwtKickStart")
         .factory("api", api);
 
     api.$inject = ["$http", "appSettings"];

@@ -2,8 +2,7 @@
     "use strict";
 
     angular
-        .module("ixesha", [
-            //"ngRoute",          // routing
+        .module("jwtKickStart", [
             "ui.router",        // routing (UI version)
             "angular-jwt",      // jwt token
             "angular-storage",  // token storage

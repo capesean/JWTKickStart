@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("ixesha")
+        .module("jwtKickStart")
         .service("loginModal", loginModal);
 
     loginModal.$inject = ["$modal"];

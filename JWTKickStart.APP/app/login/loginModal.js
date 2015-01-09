@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("ixesha")
+        .module("jwtKickStart")
         .controller("loginModal", loginModal);
 
     loginModal.$inject = ["$scope", "$state", "notifications", "authService"];

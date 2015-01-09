@@ -4,7 +4,7 @@
 "use strict";
 
 angular
-    .module("ixesha")
+    .module("jwtKickStart")
     .factory("authInterceptorService", authInterceptorService);
 
 authInterceptorService.$inject = ["$injector", "$q", "$timeout"];

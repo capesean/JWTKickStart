@@ -1,0 +1,29 @@
+﻿<div>
+
+	<form name="loginForm" ng-submit="vm.login()">
+		
+		<fieldset class="form-horizontal">
+			
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label text-left">Email:</label>
+				<div class="col-sm-5">
+					<input id="email" ng-model="vm.email" max="100" class="form-control" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="password" class="col-sm-2 control-label text-left">Password:</label>
+				<div class="col-sm-5">
+					<input type="password" id="password" ng-model="vm.password" max="100" class="form-control" />
+				</div>
+			</div>
+
+			<div>
+				<input type="submit" class="btn btn-primary" value="Login" />
+			</div>
+
+		</fieldset>
+
+	</form>
+	
+</div>

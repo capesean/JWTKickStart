@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html ng-app="ixesha">
+<head>
+	
+	<title>JWTKickStart</title>
+	
+	<link href="/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/css/bootstrap-theme.min.css" rel="stylesheet" />
+	<link href="/css/site.css" rel="stylesheet" />
+	<link href="/css/toastr.min.css" rel="stylesheet" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
+
+	<base href="/" >
+
+</head>
+<body>
+
+	<!-- Static navbar -->
+	<div class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="navigation as vm" ng-cloak>
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+
+					<li ng-show="vm.isLoggedIn()">
+						<a href="/protected">Protected</a>
+					</li>
+
+				</ul>
+				<ul class="nav navbar-nav navbar-right" ng-show="vm.isLoggedIn()">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>&nbsp;LOGGED IN!&nbsp;<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#" ng-click="vm.logout()"><i class="glyphicon glyphicon-off"></i>&nbsp;Log Out</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" ng-cloak ui-view></div>
+	
+	<!-- 3rd party libraries -->
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-ui-router.min.js"></script>
+	<script src="js/angular-route.min.js"></script>
+	<script src="js/angular-jwt.min.js"></script>
+	<script src="js/angular-storage.min.js"></script>
+	<script src="js/jquery-2.1.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/toastr.min.js"></script>
+	<script src="js/angular-ui/ui-bootstrap.min.js"></script>
+	<script src="js/angular-ui/ui-bootstrap-tpls.min.js"></script>
+	
+	<!-- app scripts -->
+	<script src="app/app.js"></script>
+	<script src="app/common/api.js"></script>
+	<script src="app/home/home.js"></script>
+	<!--<script src="app/projects/projects.js"></script>
+	<script src="app/projects/project.js"></script>-->
+	<script src="app/login/login.js"></script>
+	<script src="app/login/loginModal.js"></script>
+	<script src="app/login/loginService.js"></script>
+	<script src="app/common/authService.js"></script>
+	<script src="app/common/authInterceptorService.js"></script>
+
+</body>
+</html>

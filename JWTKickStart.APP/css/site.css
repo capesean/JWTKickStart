@@ -1,0 +1,57 @@
+﻿.container {
+    width: 100%;
+}
+
+.navbar > .container .navbar-brand {
+    padding: 10px;
+}
+
+/* force left align of labels */
+fieldset.form-horizontal .text-left {
+    text-align: left !important;
+}
+
+/* gets validation text vertically aligned with controls  */
+fieldset.form-horizontal span.control-label {
+    display: inline-block;
+}
+
+.form-signin {
+    max-width: 400px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+    .form-signin .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+    .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        -ms-border-bottom-left-radius: 0;
+        border-bottom-left-radius: 0;
+        -ms-border-bottom-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        -ms-border-top-left-radius: 0;
+        border-top-left-radius: 0;
+        -ms-border-top-right-radius: 0;
+        border-top-right-radius: 0;
+    }

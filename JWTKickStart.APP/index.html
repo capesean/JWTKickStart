@@ -38,7 +38,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right" ng-show="vm.isLoggedIn()">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>&nbsp;LOGGED IN!&nbsp;<b class="caret"></b></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>&nbsp;{{vm.user.name}}&nbsp;<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="#" ng-click="vm.logout()"><i class="glyphicon glyphicon-off"></i>&nbsp;Log Out</a></li>
 						</ul>

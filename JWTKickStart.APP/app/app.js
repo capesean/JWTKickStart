@@ -21,12 +21,17 @@
         };
     }
 
-    navigation.$inject = ["$state", "notifications", "authService"];
-    function navigation($state, notifications, authService) {
+    navigation.$inject = ["$state", "$rootScope", "notifications", "authService"];
+    function navigation($state, $rootScope, notifications, authService) {
 
         var vm = this;
         vm.logout = logout;
         vm.isLoggedIn = isLoggedIn;
+        vm.user = {};
+
+        $rootScope.$watch('user', function (newValue) {
+            vm.user = newValue;
+        });
 
         function isLoggedIn() {
             return authService.isLoggedIn();
@@ -99,13 +104,14 @@
                 notifications.error("You are not logged in", "Access Denied");
 
                 if ($state.current.name !== "login") {
-                    loginModal()
-                        .then(function() {
-                            return $state.go(toState.name, toParams);
-                        })
-                        .catch(function() {
-                            return $state.go("login");
-                        });
+                    var modal = loginModal();
+                    if(modal)
+                        modal.then(function() {
+                        return $state.go(toState.name, toParams);
+                    })
+                    .catch(function() {
+                        return $state.go("login");
+                    });
                 }
             }
         });

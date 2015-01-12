@@ -5,9 +5,9 @@
         .module("jwtKickStart")
         .factory("authService", authService);
 
-    authService.$inject = ["$http", "$q", "appSettings", "store"];
+    authService.$inject = ["$http", "$q", "$rootScope", "appSettings", "store", "jwtHelper"];
 
-    function authService($http, $q, appSettings, store) {
+    function authService($http, $q, $rootScope, appSettings, store, jwtHelper) {
 
         var service = {
             login: login,
@@ -51,8 +51,9 @@
         }
 
         function isLoggedIn() {
-            if (getToken()) return true;
-            return false;
+            var authData = getData();
+            if (!authData || !authData.token) return false; //no token: not logged in
+            return !jwtHelper.isTokenExpired(authData.token);
         }
 
         function getData() {
@@ -88,14 +89,14 @@
                 removeData();
 
                 var promise = $http.post(appSettings.apiServiceBaseUri + 'token', data, { headers: { 'Content-Type': 'application/json' } })
-                    .success(function(response) {
+                    .success(function (response) {
 
                         storeData(response.access_token, response.refresh_token);
 
                         deferred.resolve(response);
 
                     })
-                    .error(function(err) {
+                    .error(function (err) {
                         logout();
                         deferred.reject(err);
                     });
@@ -111,8 +112,21 @@
         }
 
         function storeData(accessToken, refToken) {
-            // could add more properties directly here, like username, email, etc. then the data doesn't need to be decrypted each time?
-            store.set('authorizationData', { token: accessToken, refreshToken: refToken });
+            var authData = { token: accessToken, refreshToken: refToken };
+
+            var payload = jwtHelper.decodeToken(accessToken);
+
+            store.set('authorizationData', authData);
+
+            var user = {
+                email: payload.email,
+                firstName: payload.given_name,
+                surname: payload.family_name,
+                name: payload.given_name + " " + payload.family_name,
+                userId: payload.nameid
+            };
+
+            $rootScope.user = user;
         }
 
         function removeData() {

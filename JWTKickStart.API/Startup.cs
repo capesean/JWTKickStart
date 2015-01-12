@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.IdentityModel.Claims;
+using System.Linq;
 using JWTKickStart.API.Formats;
 using JWTKickStart.API.Providers;
 using Microsoft.AspNet.Identity;
@@ -34,16 +36,19 @@ namespace JWTKickStart.API
 			{
 				const string testEmail = "test@test.com";
 
-				if (userManager.FindByName(testEmail) != null)
+				if (userManager.FindByName(testEmail) == null)
 				{
-					return;
+					var newUser = new IdentityUser(testEmail);
+					newUser.Email = testEmail;
+
+					userManager.Create(newUser, "password");
 				}
 
-				var user = new IdentityUser(testEmail);
-				user.Email = testEmail;
-
-				userManager.Create(user, "password");
-
+				var user = userManager.FindByName(testEmail);
+				if (user.Claims.All(c => c.ClaimType != System.Security.Claims.ClaimTypes.GivenName))
+					userManager.AddClaim(user.Id, new System.Security.Claims.Claim(ClaimTypes.GivenName, "Test"));
+				if (user.Claims.All(c => c.ClaimType != System.Security.Claims.ClaimTypes.Surname))
+					userManager.AddClaim(user.Id, new System.Security.Claims.Claim(ClaimTypes.Surname, "User"));
 			}
 
 		}

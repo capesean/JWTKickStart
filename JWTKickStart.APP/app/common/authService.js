@@ -13,7 +13,6 @@
             login: login,
             logout: logout,
             isLoggedIn: isLoggedIn,
-            getData: getData,
             getToken: getToken,
             loadUser: loadUser,
             storeData: storeData,

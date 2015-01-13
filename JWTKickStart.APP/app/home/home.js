@@ -10,7 +10,7 @@
     function home(authService, api) {
 
         var vm = this;
-        vm.authData = authService.getData();
+        vm.authData = { token: authService.getToken(), refreshToken: authService.getRefreshToken() };
 
         api.getProtectedData()
             .then(function(data) { vm.protectedData = data; });

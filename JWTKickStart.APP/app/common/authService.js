@@ -15,8 +15,10 @@
             isLoggedIn: isLoggedIn,
             getData: getData,
             getToken: getToken,
+            loadUser: loadUser,
+            storeData: storeData,
             getRefreshToken: getRefreshToken,
-            refreshToken: refreshToken
+            getRefreshTokenPromise: getRefreshTokenPromise
         };
 
         return service;
@@ -27,7 +29,7 @@
 
             var deferred = $q.defer();
 
-            $http.post(appSettings.apiServiceBaseUri + 'token', data, { headers: { 'Content-Type': 'application/json' } })
+            $http.post(appSettings.apiServiceBaseUri + "token", data, { headers: { "Content-Type": "application/json" } })
                 .success(function (response) {
 
                     if (!response.access_token)
@@ -38,8 +40,8 @@
                     deferred.resolve(response);
 
                 })
-                .error(function (err, status) {
-                    //_logOut();
+                .error(function (err) {
+                    logout();
                     deferred.reject(err);
                 });
 
@@ -52,8 +54,8 @@
 
         function isLoggedIn() {
             var authData = getData();
-            if (!authData || !authData.token) return false; //no token: not logged in
-            return !jwtHelper.isTokenExpired(authData.token);
+            // must have auth token and (be non-expired or have refresh token)
+            return (authData && authData.token && (!jwtHelper.isTokenExpired(authData.token) || authData.refreshToken));
         }
 
         function getData() {
@@ -61,72 +63,77 @@
         }
 
         function getToken() {
-            var authData = getData();
-            if (authData) {
-                return authData.token;
-            }
-            return null;
+            return getData().token || null;
         }
 
         function getRefreshToken() {
-            var authData = getData();
-            if (authData && authData.refreshToken) {
-                return authData.refreshToken;
-            }
-            return null;
+            return getData().refreshToken || null;
         }
 
-        function refreshToken() {
+        function getRefreshTokenPromise() {
+
+            var refreshToken = getRefreshToken();
+
+            console.log('refresh token promise requested');
 
             var deferred = $q.defer();
 
-            var token = getRefreshToken();
+            $http({
+                url: appSettings.apiServiceBaseUri + "token",
+                data: "grant_type=refresh_token&refresh_token=" + refreshToken + "&client_id=" + appSettings.authClientId,
+                skipAuthorization: true,
+                method: "POST"
+            }).then(function (response) {
 
-            if (token) {
+                if (!response.data.access_token) deferred.reject();
 
-                var data = "grant_type=refresh_token&refresh_token=" + token + "&client_id=" + appSettings.authClientId;
+                storeData(response.data.access_token, response.data.refresh_token);
 
-                removeData();
+                deferred.resolve(response.data.access_token);
 
-                var promise = $http.post(appSettings.apiServiceBaseUri + 'token', data, { headers: { 'Content-Type': 'application/json' } })
-                    .success(function (response) {
+            }, function () {
 
-                        storeData(response.access_token, response.refresh_token);
+                authService.logout();
+                deferred.reject();
 
-                        deferred.resolve(response);
-
-                    })
-                    .error(function (err) {
-                        logout();
-                        deferred.reject(err);
-                    });
-
-                return promise;
-
-            } else {
-                deferred.reject("No Refresh Token available");
-            }
+            });
 
             return deferred.promise;
+        }
+
+        function storeData(accessToken, refreshToken) {
+
+            var authData = { token: accessToken, refreshToken: refreshToken };
+
+            store.set("authorizationData", authData);
+
+            loadUser();
 
         }
 
-        function storeData(accessToken, refToken) {
-            var authData = { token: accessToken, refreshToken: refToken };
+        function loadUser() {
 
-            var payload = jwtHelper.decodeToken(accessToken);
+            var authData = getData();
 
-            store.set('authorizationData', authData);
+            if (authData && authData.token) {
 
-            var user = {
-                email: payload.email,
-                firstName: payload.given_name,
-                surname: payload.family_name,
-                name: payload.given_name + " " + payload.family_name,
-                userId: payload.nameid
-            };
+                var payload = jwtHelper.decodeToken(authData.token);
 
-            $rootScope.user = user;
+                var user = {
+                    email: payload.email,
+                    firstName: payload.given_name,
+                    surname: payload.family_name,
+                    name: payload.given_name + " " + payload.family_name,
+                    userId: payload.nameid
+                };
+
+                $rootScope.user = user;
+
+            } else {
+                $rootScope.user = null;
+
+            }
+
         }
 
         function removeData() {
@@ -136,4 +143,3 @@
     };
 
 }());
-

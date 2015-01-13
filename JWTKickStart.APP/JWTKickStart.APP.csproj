@@ -59,7 +59,6 @@
   <ItemGroup>
     <Content Include="app\app.js" />
     <Content Include="app\common\api.js" />
-    <Content Include="app\common\authInterceptorService.js" />
     <Content Include="app\common\authService.js" />
     <Content Include="app\home\home.html" />
     <Content Include="app\home\home.js" />
@@ -74,16 +73,24 @@
     <Content Include="css\toastr.min.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
+    <Content Include="js\angular-jwt.js" />
     <Content Include="js\angular-jwt.min.js" />
+    <Content Include="js\angular-resource.js" />
     <Content Include="js\angular-resource.min.js" />
-    <Content Include="js\angular-route.min.js" />
+    <Content Include="js\angular-storage.js" />
     <Content Include="js\angular-storage.min.js" />
+    <Content Include="js\angular-ui-router.js" />
     <Content Include="js\angular-ui-router.min.js" />
     <Content Include="js\angular-ui\ui-bootstrap-tpls.min.js" />
     <Content Include="js\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="js\angular.js" />
     <Content Include="js\angular.min.js" />
+    <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <None Include="js\jquery-2.1.1.intellisense.js" />
+    <Content Include="js\jquery-2.1.1.js" />
     <Content Include="js\jquery-2.1.1.min.js" />
+    <Content Include="js\toastr.js" />
     <Content Include="js\toastr.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -94,6 +101,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="js\angular-resource.min.js.map" />
+    <Content Include="js\angular.min.js.map" />
+    <Content Include="js\jquery-2.1.1.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
